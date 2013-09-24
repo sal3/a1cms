@@ -1,0 +1,1 @@
+<tr><td>{date}</td><td width='700px'>{pinned_flag}&nbsp;<a href="{news_url}">{news_title}</a></td><td><a href='{view_link}'>-&gt;</a></td><td>{approved_flag}</td><td width='130px'>{user_name}</td></tr>

@@ -1,0 +1,38 @@
+<?php
+
+if (!defined('a1cms'))
+	die('Access denied!');
+
+$plugin_list['admin_newslist']=array (
+  'title' => 'Список новостей для админки',
+  'version' => '0.1',
+  'site' => '',
+  'cat' => 'content',
+  'priority' => 1000,
+  'install_state' => '2',
+  'state' => 1,
+  'allowed_groups' =>
+  array (
+    0 => 1,
+    1 => 2,
+    2 => 8,
+    3 => 10,
+    4 => 3,
+    5 => 6,
+    6 => 4,
+  ),
+  'icon' => 'table.png',
+  'allowed_users' =>
+  array (
+    0 => '',
+  ),
+);
+
+$admin_menu[]=array(
+'pluginname'=>'admin_newslist',
+'title'=>'Список новостей',
+'get_params'=>'',
+'position'=>20,
+'icon'=>"<i class='fam-table'></i>",
+);
+?>
