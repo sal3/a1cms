@@ -14,38 +14,38 @@ if (!file_exists($cronmarks_dir))
 		mkdir($cronmarks_dir, 0777);
 
 		// Назначение news_views: обновление количества просмотров с таблицы views
-		if($news_config['cache_news_views'])
-		{
-		$news_views_taskfile = $cronmarks_dir.'/news_views';
-
-		if (!file_exists($news_views_taskfile))
-			touch($news_views_taskfile);
-
-		$news_views_execute=check_task($news_views_taskfile, $engine_config['news_views_taskperiod']);
-
-		if($news_views_execute)
-		{
-		$result = query ("SELECT COUNT(`news_id`) views, `news_id` FROM `{P}_views` GROUP BY `news_id`");
-
-		while($row = fetch_assoc($result))
-			{
-				if($pieces)
-				$pieces.=', ';
-
-				$pieces .= "(".$row['news_id'].", '".$row['views']."')";
-			}
-
-			$qery_piece = "INSERT INTO `{P}_news` (`id`, `views`) VALUES ".$pieces."
-				ON DUPLICATE KEY UPDATE `views`=`views`+ VALUES(`views`)";
-			query($qery_piece,array('none'=>'none'));
-			query('TRUNCATE TABLE `{P}_views`');
-			touch($news_views_taskfile);
-
-			$debug[]="CRON: Задание news_views выполнено";
-		}
-
-		$debug[]="До обновления просмотров c кеша осталось ".($engine_config['news_views_taskperiod'] - (time()-filemtime($news_views_taskfile)))." сек.";
-		}
+// 		if($news_config['cache_news_views'])
+// 		{
+// 		$news_views_taskfile = $cronmarks_dir.'/news_views';
+// 
+// 		if (!file_exists($news_views_taskfile))
+// 			touch($news_views_taskfile);
+// 
+// 		$news_views_execute=check_task($news_views_taskfile, $engine_config['news_views_taskperiod']);
+// 
+// 		if($news_views_execute)
+// 		{
+// 		$result = query ("SELECT COUNT(`news_id`) views, `news_id` FROM `{P}_views` GROUP BY `news_id`");
+// 
+// 		while($row = fetch_assoc($result))
+// 			{
+// 				if($pieces)
+// 				$pieces.=', ';
+// 
+// 				$pieces .= "(".$row['news_id'].", '".$row['views']."')";
+// 			}
+// 
+// 			$qery_piece = "INSERT INTO `{P}_news` (`id`, `views`) VALUES ".$pieces."
+// 				ON DUPLICATE KEY UPDATE `views`=`views`+ VALUES(`views`)";
+// 			query($qery_piece,array('none'=>'none'));
+// 			query('TRUNCATE TABLE `{P}_views`');
+// 			touch($news_views_taskfile);
+// 
+// 			$debug[]="CRON: Задание news_views выполнено";
+// 		}
+// 
+// 		$debug[]="До обновления просмотров c кеша осталось ".($engine_config['news_views_taskperiod'] - (time()-filemtime($news_views_taskfile)))." сек.";
+// 		}
 
 
 		// Назначение pm_delete: удаление осиротевших сообщений

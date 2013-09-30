@@ -1122,22 +1122,24 @@ function clean_cache ()
 function CategoriesGet()
 {
 	global $_CAT;
-	// if(!$_CAT)
-	// 	$_CAT=CategoriesGet();
 	
 	$cachefile=root.'/cache/cats/categorys.tmp';
 	$_CAT = unserialize( @file_get_contents( $cachefile ) );
-	if( !is_array($_CAT) ) {
+	if(!is_array($_CAT))
+	{
 		$_CAT = array();
 		$sql_cat = query("SELECT * FROM `{P}_categories` ORDER BY `position` ASC");
 
-		while( $row = fetch_assoc($sql_cat) ) {
+		while( $row = fetch_assoc($sql_cat) )
+		{
 			$_CAT[$row['id']] = array ();
 			foreach( $row as $key => $value ) {
 				$_CAT[$row['id']][$key] = stripslashes( $value );
 			}
 		}
-		set_cache($cachefile,serialize($_CAT));
+		
+		if(count($_CAT)>0)
+			set_cache($cachefile,serialize($_CAT));
 	}
 	return $_CAT;
 }
@@ -1160,7 +1162,8 @@ function CategoriesGetAltnames()
 			foreach ($_CAT as $val)
 				$categoryAltnames[$val['url_name']]=$val['id'];
 				
-			set_cache($cachefile,serialize($categoryAltnames));
+			if(count($categoryAltnames)>0)
+				set_cache($cachefile,serialize($categoryAltnames));
 		}
 	}
 	
