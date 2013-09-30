@@ -1,0 +1,9 @@
+<?php
+if (!defined('a1cms'))
+	die('Access denied!');
+
+if ($WHEREI['admincenter']==true and $_GET['plugin']=='admin_news')
+{
+	include_once 'admin_index.php';
+}
+?>

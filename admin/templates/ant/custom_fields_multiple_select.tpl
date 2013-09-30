@@ -1,0 +1,1 @@
+<tr><td><b>{name}</b></td><td><select id="custom_param_{parameter_id}" multiple="multiple">{value}</select></td></tr>

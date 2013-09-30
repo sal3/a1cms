@@ -1,0 +1,2 @@
+<script src="{site_path}/plugins/users/auth.js" type="text/javascript"></script>
+Вы вошли как <b>{user_name}</b>, группа <b>{group_name}</b>&nbsp;|&nbsp;<a href='#' class='unauth-button'><b>Выход</b></a>

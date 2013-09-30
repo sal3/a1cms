@@ -1,0 +1,2 @@
+<a href="{site_path}/admin/index.php?plugin=custom_fields&action=parameters" class="btn"><i class="fam-brick"></i> Параметры</a>
+<a href="{site_path}/admin/index.php?plugin=custom_fields&action=parameter_set" class="btn"><i class="fam-bricks"></i> Наборы параметров</a>

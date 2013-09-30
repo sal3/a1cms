@@ -1,0 +1,18 @@
+/*#parameterModal .input-prepend span.add-on, #parameterValueModal .input-prepend span.add-on {
+	width: 170px;
+}
+#parameterModal .input-prepend input[type="text"], #parameterValueModal .input-prepend input[type="text"] {
+	width: 330px;
+}
+#parameterModal select, #parameterValueModal select {
+	width:345px;
+}*/
+.add-on.modalAdd-on {
+	width: 170px;
+}
+.input-prepend input.modalInput-prepend {
+	width: 330px;
+}
+.input-prepend select.modalSelect {
+	width:345px;
+}
