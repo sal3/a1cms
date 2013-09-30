@@ -18,6 +18,7 @@ if ($WHEREI['main']==true)
 		else
 		{
 			//var_dump($_URI['path_params']);
+			$page=1;
 			
 			if ($news_config['news_on_main'] and ($_URI['request_uri'] == '/' or $_URI['request_uri']=='/index.php'))
 			{
@@ -43,7 +44,7 @@ if ($WHEREI['main']==true)
 			// elseif ($_URI['path_params'][1]=="новости-пользователя")
 			// 
 			
-			if($view_short_type)
+			if(isset($view_short_type) and $view_short_type)
 				include_once 'front_news/view_short.php';
 		}
 	}

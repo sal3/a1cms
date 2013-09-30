@@ -33,7 +33,7 @@ if($WHEREI['main']==true)
 
 			$commentsadd = parse_template($template, $parse);
 		}
-		elseif(!$_SESSION['user_id'])
+		elseif(!isset($_SESSION['user_id']) or !$_SESSION['user_id'])
 			$commentsadd = showinfo("Добавление комментария:", "Только зарегистрированные пользователи могут оставлять комментарии. Зарегистрируйтесь или войдите, если вы уже зарегистрированы на нашем сайте.");
 			
 // 		elseif(!$_SESSION['approved'] and $engine_config['register_activate'])
@@ -50,7 +50,10 @@ if($WHEREI['main']==true)
 		elseif(!in_array($_SESSION['user_group'], $comment_options['allow_add_comments']))
 			$commentsadd = showinfo("Добавление комментария:", "Вашей группе пользователей запрещено добавлять комментарии.");
 
-		$parse_plugins['{plugin=comments}'] .= '<script src="'.$engine_config['site_path'].'/plugins/comments/comments.js" type="text/javascript"></script>'.$commentsadd.$comments;
+		if(isset($parse_plugins['{plugin=comments}']))
+			$parse_plugins['{plugin=comments}'] .= '<script src="'.$engine_config['site_path'].'/plugins/comments/comments.js" type="text/javascript"></script>'.$commentsadd.$comments;
+		else
+			$parse_plugins['{plugin=comments}'] = '<script src="'.$engine_config['site_path'].'/plugins/comments/comments.js" type="text/javascript"></script>'.$commentsadd.$comments;
 	}
 }
 elseif ($WHEREI['admincenter']==true and $_GET['plugin']=='comments')

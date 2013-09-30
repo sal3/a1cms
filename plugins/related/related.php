@@ -67,7 +67,7 @@ function related_news ($data)
 
 		$related .= parse_template($data['tpl'], $data['parse']);
 	}
-		if($related)
+		if(isset($related))
 			$parse[$entrie_out['0']]=$related;
 		else
 			$parse[$entrie_out['0']]='';

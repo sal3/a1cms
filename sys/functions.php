@@ -11,7 +11,7 @@ function get_template ($tpl_name,$admintemplate=0)
 		$tpl_path=$engine_config['template_path'];
 	$template = @file_get_contents($tpl_path.'/'.$tpl_name.'.tpl')
 		or $local_error ='Шаблон '.$tpl_name.' не найден по заданному пути '.$tpl_path;
-	if($local_error)
+	if(isset($local_error) and $local_error)
 	{
 		$error[]=$local_error;
 		return false;
@@ -133,10 +133,14 @@ function make_cat_link($search_cat_id)
 	$chain=get_parent_cat_chain($search_cat_id);
 	if(is_array($chain))
 	{
-	foreach ($chain as $cat_id)
-		$link.=rawurlencode($_CAT[$cat_id]['url_name']).'/';
+		foreach ($chain as $cat_id)
+			$link.=rawurlencode($_CAT[$cat_id]['url_name']).'/';
 	}
-	$link.=rawurlencode($_CAT[$search_cat_id]['url_name']);
+	if(isset($link))
+		$link.=rawurlencode($_CAT[$search_cat_id]['url_name']);
+	else
+		$link=rawurlencode($_CAT[$search_cat_id]['url_name']);
+	
 	return $link;
 }
 
@@ -226,8 +230,8 @@ function get_parent_cat_chain($search_cat_id)//FIXME переименовать 
 		$new_parent=get_parent_cat_chain((int)$_CAT[$search_cat_id]['parentid']);
 		if($new_parent)
 			$parent_arr=array_merge($new_parent,$parent_arr);
+		return $parent_arr;
 	}
-	return $parent_arr;
 }
 
 // получает id всех дочерних категорий. Используется для отображения новостей по категории (и вложенных в нее)
@@ -251,7 +255,7 @@ function get_child_cats($id)
 		}
 	}
 
-	if($result)
+	if(isset($result))
 		return $result;
 	else
 		return false;
@@ -683,7 +687,7 @@ function function_bbcode_to_html ($str, $news_title="изображение")
 	return $str;
 }
 
-function function_bbcode_to_html_short ($str, $none)
+function function_bbcode_to_html_short ($str, $news_title)
 {
 	$news_title=html_entity_decode($news_title, ENT_QUOTES, 'UTF-8');
 	$news_title=htmlentities ($news_title, ENT_QUOTES, 'UTF-8');
@@ -1061,19 +1065,23 @@ function get_cache ($file_cache_name,$cache_time)
 // сохранение кеша
 function set_cache ($file_cache_name, $content)
 {
-	global $debug;
-
-	if(file_put_contents($file_cache_name, $content))
+	global $engine_config, $debug, $error;
+	if(is_writable($engine_config['cache_dir']))
 	{
-		chmod($file_cache_name, 0777);
-		$debud[]="Файл '".basename($file_cache_name)."' записан в кеш.";
-		return true;
+		if(file_put_contents($file_cache_name, $content))
+		{
+			chmod($file_cache_name, 0777);
+			$debug[]="Файл '".basename($file_cache_name)."' записан в кеш.";
+			return true;
+		}
+		else
+		{
+			$debug[]="Не удалось записать файл '".basename($file_cache_name)."' в кеш.";
+			return false;
+		}
 	}
 	else
-	{
-		$debud[]="Не удалось записать файл '".basename($file_cache_name)."' в кеш.";
-		return false;
-	}
+		$error[]="Директория кеша недоступна для записи. Кеш не записан.";
 }
 
 // удаление кеша
@@ -1137,6 +1145,7 @@ function CategoriesGet()
 #*** Получение альтнеймов списка категорий ***#
 function CategoriesGetAltnames()
 {
+	$categoryAltnames=array();
 	$cachefile=root.'/cache/cats/categories_altnames.tmp';
 	if(is_file($cachefile))
 		$categoryAltnames = unserialize( @file_get_contents( $cachefile ) );
@@ -1145,11 +1154,14 @@ function CategoriesGetAltnames()
 		global $_CAT;
 		if(!$_CAT)
 			$_CAT=CategoriesGet();
-			
-		foreach ($_CAT as $val)
-			$categoryAltnames[$val['url_name']]=$val['id'];
-			
-		set_cache($cachefile,serialize($categoryAltnames));
+		
+		if(count($_CAT)>0)
+		{
+			foreach ($_CAT as $val)
+				$categoryAltnames[$val['url_name']]=$val['id'];
+				
+			set_cache($cachefile,serialize($categoryAltnames));
+		}
 	}
 	
 	return $categoryAltnames;
@@ -1370,51 +1382,37 @@ function make_query ($query_array)
 	
 	global $error;
 	// подготовка запроса
-	if($query_array['select'])
-		$query_select=implode(',',$query_array['select']);
+	if(isset($query_array['select']) and $query_array['select'])
+		$query='SELECT ' . implode(',',$query_array['select']);
 	else
 		$error[]="Нет параметров select";
 		
-	if(!$query_array['from'])
+	if(isset($query_array['from']) and $query_array['from'])
+		$query .= ' FROM ' . $query_array['from'];
+	else
 		$error[]="Нет параметра from";
 		
-	if($query_array['join'])
+	if(isset($query_array['join']) and $query_array['join'])
+	{
 		foreach($query_array['join'] as $type=>$value)
 			$query_join.=" $type ".implode(" $type ",$query_array['join'][$type]).' ';
+		$query .= $query_join;
+	}
 		
-	if($query_array['where'])
-		$query_where=' WHERE ' . implode(' and ',$query_array['where']).' ';
+	if(isset($query_array['where']) and $query_array['where'])
+		$query .= ' WHERE ' . implode(' and ',$query_array['where']).' ';
 		
-	if($query_array['order_by'])
-		$query_order_by=' ORDER BY ' . implode(',',$query_array['order_by']).' ';
+	if(isset($query_array['order_by']) and $query_array['order_by'])
+		$query .= ' ORDER BY ' . implode(',',$query_array['order_by']).' ';
 		
-	if($query_array['limit'])
-		$query_limit=" LIMIT {$query_array['limit']} ";
-	
-	// сам запрос
-	$query='SELECT ' . $query_select
-	. ' FROM ' . $query_array['from']
-	. $query_join 
-	. $query_where
-	. $query_order_by
-	. $query_limit;
+	if(isset($query_array['limit']) and $query_array['limit'])
+		$query .= " LIMIT {$query_array['limit']} ";
 	
 	return $query;
 }
 
 function mailer($from, $to, $subject, $message)
 {
-// 	$to  = $_POST['email'];
-// 	$subject = 'Активация аккаунта на сайте '.$engine_config['site_short_title'];
-// 	$message = "Вы получили это письмо, т.к. указали этот email при регистрации на сайте {$engine_config['site_path']} \n
-// Для активации аккаунта пройдите по ссылке {$engine_config['site_path']}/index.php?do=register&activationid=$approve_code&login=".rawurlencode($_POST['user_name'])." \n
-// Если вы не регистрировали такой аккаунт - просто проигнорируйте данное письмо.";
-// 	$headers = 'From: noreply@'.$_SERVER['HTTP_HOST']."\r\n" .
-// 	'Reply-To: admin@'.$_SERVER['HTTP_HOST']."\r\n" .
-// 	'X-Mailer: PHP/' . phpversion();
-
-// 	 mail($to, '=?UTF-8?B?'.base64_encode($subject).'?=', $message, $header_ . $header);
-	 
 	$headers=
 	'MIME-Version: 1.0' . "\r\n".
 	'Content-type: text/plain; charset="UTF-8"' . "\r\n" .

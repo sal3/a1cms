@@ -3,7 +3,7 @@
 if (!defined('a1cms'))
 	die('Access denied to admin_pluginmanager!');
 
-if ($WHEREI['admincenter']==true and $_GET['plugin']=='admin_pluginmanager')
+if (isset($WHEREI['admincenter']) and $WHEREI['admincenter']==true and $_GET['plugin']=='admin_pluginmanager')
 {
 	$groups_query = "SELECT id, group_name from {P}_groups ORDER by `Order`";
 	$groups_sql = query($groups_query);

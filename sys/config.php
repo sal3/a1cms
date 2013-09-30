@@ -3,14 +3,7 @@
 if (!defined('a1cms'))
 	die('Access denied to config.php!');
 
-//включаем ошибки
-//ini_set('display_errors',1);
 ini_set('session.hash_bits_per_character', 5);
-
-error_reporting(E_ALL & ~E_NOTICE);
-//error_reporting(7);
-error_reporting(0);
-
 mb_regex_encoding("UTF-8");
 date_default_timezone_set('Europe/Kiev');
 

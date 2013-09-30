@@ -4,7 +4,7 @@ if (!defined('a1cms'))
 
 include_once 'options.php';
 
-if ($WHEREI['admincenter']==true and $_GET['plugin']=='admin_optimize')
+if (isset($WHEREI['admincenter']) and $WHEREI['admincenter']==true and $_GET['plugin']=='admin_optimize')
 {          
 	if(!in_array($_SESSION['user_group'], $optimize_config['allow_control']))
 		die("Access denied to admin_optimize!");

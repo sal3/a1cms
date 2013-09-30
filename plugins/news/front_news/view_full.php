@@ -46,13 +46,14 @@ if (!defined('a1cms'))
 		}
 	}
 
-	if(!$data['full_text_content'])
+	if(!isset($data['full_text_content']))
 	{
 		// параметры для выборки новостей
-		$news_query_array['select']=array_merge(
-		(array) $news_query_array['select'],
-		array('`{P}_news`.`id` newsid, `title`, `url_name`, `category_id`, `{P}_news`.`date` newsdate, `poster`, `full_text`, `short_text`, `user_name`, `{P}_news`.`comments_quantity` newscomments_quantity, `allow_comments`, `views`, `description`, `keywords`, `approved`')
-		);
+		$news_select=array('`{P}_news`.`id` newsid, `title`, `url_name`, `category_id`, `{P}_news`.`date` newsdate, `poster`, `full_text`, `short_text`, `user_name`, `{P}_news`.`comments_quantity` newscomments_quantity, `allow_comments`, `views`, `description`, `keywords`, `approved`');
+		if(isset($news_query_array['select']) and $news_query_array['select'])
+			$news_query_array['select']=array_merge((array) $news_query_array['select'],$news_select);
+		else
+			$news_query_array['select']=$news_select;
 		$news_query_array['from']='`{P}_news`';
 		$news_query_array['where'][]='`{P}_news`.`id` = i<newsid>';
 		$news_query_array['limit'] = 1;
@@ -102,27 +103,29 @@ if (!defined('a1cms'))
 			$data['parse']['{author_name}'] = $data['news_row']['user_name'];
 			$data['parse']['{comments-num}'] = $data['news_row']['newscomments_quantity'];
 			$data['parse']['{views}'] = $data['news_row']['views'];
-			$data['parse']['{author_group_id}'] = $data['news_row']['user_group'];
+// 			$data['parse']['{author_group_id}'] = $data['news_row']['user_group'];
 			
 			
 			$parse_main['{meta-title}']=$data['news_row']['title'];
 			$parse_main['{meta-description}'] = $data['news_row']['description'];
 			$parse_main['{meta-keywords}'] = $data['news_row']['keywords'];
 			
-			preg_match("/\[poster\](.*?)\[\/poster\]/isu", $data['tpl'], $poster);
-			if($data['news_row']['poster'])
-				$data['tpl'] = str_replace($poster['0'], $poster['1'], $data['tpl']);
-			else
-				$data['tpl'] = str_replace($poster['0'], '', $data['tpl']);
+// 			preg_match("/\[poster\](.*?)\[\/poster\]/isu", $data['tpl'], $poster);
+// 			if($data['news_row']['poster'])
+// 				$data['tpl'] = str_replace($poster['0'], $poster['1'], $data['tpl']);
+// 			else
+// 				$data['tpl'] = str_replace($poster['0'], '', $data['tpl']);
 
-			
-			$data['full_text_content'] .= parse_template($data['tpl'],$data['parse']);
+			if(isset($data['full_text_content']))
+				$data['full_text_content'] .= parse_template($data['tpl'],$data['parse']);
+			else
+				$data['full_text_content'] = parse_template($data['tpl'],$data['parse']);
 			
 			event('plugin_init_after_fullnews_parse', $data);
 			$data=filter('filter_after_fullnews_parse', $data);
 			
-			//пагинация
-			$data['full_text_content'] .= universal_link_bar($postsquantity,$page,$pagination['now_url'],$news_config['news_on_page'],$news_config['pagelinks'],$pagination['before_page_number'],$pagination['after_page_number']);
+			//пагинация FIXME: отключено в полной новости. Запилить в плагине комментариев.
+// 			$data['full_text_content'] .= universal_link_bar($postsquantity,$page,$pagination['now_url'],$news_config['news_on_page'],$news_config['pagelinks'],$pagination['before_page_number'],$pagination['after_page_number']);
 			
 			//записываем, если кеш включен и новость опубликована
 			if($engine_config['cache_enable']==1 and $news_config['use_cache']==1 and $data['news_row']['approved'])
@@ -140,10 +143,13 @@ if (!defined('a1cms'))
 // 		}
 	}
 	
-	if($data['full_text_content'])
+	if(isset($data['full_text_content']))
 		while(preg_match("/\[edit\|(.*?)\](.*?)\[\/edit\]/isu", $data['full_text_content'], $post))
 		{
-			if(in_array ($_SESSION['user_group'], $news_config['allow_edit_all_posts']) or ($post['2']==$_SESSION['user_name'] and in_array($_SESSION['user_name'],$news_config['allow_edit_own_posts'])))
+			if(
+			(isset($_SESSION['user_group']) and in_array ($_SESSION['user_group'],$news_config['allow_edit_all_posts'])) 
+			or 
+			(isset($_SESSION['user_name']) and $post['2']==$_SESSION['user_name'] and in_array($_SESSION['user_name'],$news_config['allow_edit_own_posts'])))
 				$data['full_text_content'] = str_replace($post['0'], $post['2'], $data['full_text_content']);
 			else
 				$data['full_text_content'] = str_replace($post['0'], '', $data['full_text_content']);

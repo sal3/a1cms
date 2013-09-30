@@ -7,7 +7,7 @@
 				{short-story}
 				<div style="clear:both;"></div>
 			</div>
-			<span class="ui-icon text-icon ui-icon-person" title="автор"></span><a href="{author_link}">{author_name}</a>
+			<span class="ui-icon text-icon ui-icon-person" title="автор"></span>[if-plugin-users]<a href="{author_link}">[/if-plugin-users]{author_name}[if-plugin-users]</a>[/if-plugin-users]
 			<span class="ui-icon text-icon ui-icon-calendar" title="добавлено"></span>{date}
 			[edit|{author_name}]<span class="ui-icon text-icon ui-icon-pencil" title="правка"></span><a href="#" data-dropdown="#dropdown-{newsid}">Правка</a>
 				<div id="dropdown-{newsid}" class="dropdown-menu has-tip">
@@ -20,6 +20,7 @@
 				</div>
 			[/edit]
 			<span class="ui-icon text-icon ui-icon-star" title="просмотров"></span>{views}
-			<span class="ui-icon text-icon ui-icon-comment" title="комментариев"></span><a href="{full-link}#comments">{comments-num}</a><a href="{full-link}"><span class="ui-icon text-icon ui-icon-circle-arrow-e" title="подробнее о {safe_title}"></span><b>Подробнее</b></a>		
+			[if-plugin-comments]<span class="ui-icon text-icon ui-icon-comment" title="комментариев"></span><a href="{full-link}#comments">{comments-num}</a>[/if-plugin-comments]
+			<a href="{full-link}"><span class="ui-icon text-icon ui-icon-circle-arrow-e" title="подробнее о {safe_title}"></span><b>Подробнее</b></a>		
 	</div>
 </div>

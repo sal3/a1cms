@@ -29,7 +29,6 @@
 {AJAX}
 
 <div id="wrapper">
-
 	<div class="ui-widget ui-widget-content ui-corner-all" id="header">
 		<div class="widget-content">
 			<a href="{site_path}/">Название сайта</a>
@@ -44,55 +43,60 @@
 			</div><!-- #content-->
 		</div><!-- #container-->
 
+		
 		<div class="sidebar" id="sideLeft">
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
-				<h3 class="ui-widget-header ui-corner-all">Категории</h3>
-				<div class="widget-content">{plugin=catlist}</div>
-			</div>
-
-		[if-plugin-online]
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-online">
-				<h3 class="ui-widget-header ui-corner-all">Онлайн</h3>
-				<div class="widget-content">{plugin=online}</div>
-			</div>
-		[/if-plugin-online]
+			[if-plugin-catlist]
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
+					<h3 class="ui-widget-header ui-corner-all">Категории</h3>
+					<div class="widget-content">{plugin=catlist}</div>
+				</div>
+			[/if-plugin-catlist]
+			
+			[if-plugin-online]
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-online">
+					<h3 class="ui-widget-header ui-corner-all">Онлайн</h3>
+					<div class="widget-content">{plugin=online}</div>
+				</div>
+			[/if-plugin-online]
 		
 		</div><!-- .sidebar#sideLeft -->
 
 		<div class="sidebar" id="sideRight">
-	
-		
-		[if-plugin-cart]
-			<script src="{site_path}/plugins/cart/cart.js"></script>
-			
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
-				<h3 class="ui-widget-header ui-corner-all">Корзина</h3>
-				<div class="widget-content" id="cart_main"></div>
-			</div>
-		[/if-plugin-cart]
-		
-			<!-- Поиск -->
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
-				<h3 class="ui-widget-header ui-corner-all">Поиск</h3>
-				<div class="widget-content">{searchform}</div>
-			</div>
-
-			<!-- Вход -->
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-login">
-				<h3 class="ui-widget-header ui-corner-all">Авторизация</h3>
-				<div class="widget-content">{login}</div>
-			</div>
-
-			<div class="ui-widget ui-widget-content ui-corner-all" id="block-nav">
-				<h3 class="ui-widget-header ui-corner-all">Навигация</h3>
-				<div class="widget-content">
-					<ul class="nav">
-						<li><a href="{site_path}/">Главная</a></li>
-						<li><a href="{site_path}/%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0">Статистика</a></li>
-						<li><a href="{site_path}/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%B8%D0%B8/">Последние комментарии</a></li>
-					</ul>
+			[if-plugin-cart]
+				<script src="{site_path}/plugins/cart/cart.js"></script>
+				
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
+					<h3 class="ui-widget-header ui-corner-all">Корзина</h3>
+					<div class="widget-content" id="cart_main"></div>
 				</div>
-			</div>
+			[/if-plugin-cart]
+			
+			[if-plugin-search]
+			<!-- Поиск -->
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-cats">
+					<h3 class="ui-widget-header ui-corner-all">Поиск</h3>
+					<div class="widget-content">{searchform}</div>
+				</div>
+			[/if-plugin-search]
+			
+			[if-plugin-users]
+				<!-- Вход -->
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-login">
+					<h3 class="ui-widget-header ui-corner-all">Авторизация</h3>
+					<div class="widget-content">{login}</div>
+				</div>
+			[/if-plugin-users]
+			
+				<div class="ui-widget ui-widget-content ui-corner-all" id="block-nav">
+					<h3 class="ui-widget-header ui-corner-all">Навигация</h3>
+					<div class="widget-content">
+						<ul class="nav">
+							<li><a href="{site_path}/">Главная</a></li>
+							[if-plugin-stats]<li><a href="{site_path}/%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0">Статистика</a></li>[/if-plugin-stats]
+							[if-plugin-comments]<li><a href="{site_path}/%D0%BF%D0%BE%D1%81%D0%BB%D0%B5%D0%B4%D0%BD%D0%B8%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D0%B8%D0%B8/">Последние комментарии</a></li>[/if-plugin-comments]
+						</ul>
+					</div>
+				</div>
 		</div><!-- .sidebar#sideRight -->
 
 	</div><!-- #middle-->

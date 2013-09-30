@@ -4,8 +4,8 @@ if (!defined('a1cms'))
 
 include_once 'options.php';
 
-if ($WHEREI['admincenter']==true and $_GET['plugin']=='sitemap')
-{          
+if (isset($WHEREI['admincenter']) and $WHEREI['admincenter']==true and $_GET['plugin']=='sitemap')
+{    
 	if(!in_array($_SESSION['user_group'], $sitemap_config['allow_control']))
 		die("Access denied to sitemap!");
 

@@ -21,8 +21,8 @@ $engine_config['engine_name']="A1 CMS";
 $engine_config['engine_version']="0.1";
 
 
-define('root', $_SERVER['DOCUMENT_ROOT'].$subfolder);
-$engine_config['site_path']= 'http://'.$_SERVER['HTTP_HOST'].$subfolder;
+// define('root', $_SERVER['DOCUMENT_ROOT'].$engine_config['subfolder']);
+$engine_config['site_path']= 'http://'.$_SERVER['HTTP_HOST'].$engine_config['subfolder'];
 $engine_config['http_avatar_path']=$engine_config['site_path'].'/uploads/avatar/';
 
 //шаблон
@@ -50,15 +50,32 @@ $engine_config['cache_dir']= root.$engine_config['cache_dir_config'];
 // if (!is_dir ($engine_config['files_dir'].$engine_config['current_month']))
 //     mkdir ($engine_config['files_dir'].$engine_config['current_month'], 0777, 1);
 
-if (!file_exists($engine_config['cache_dir']))
-	mkdir($engine_config['cache_dir'], 0777);
 
-if (!file_exists($engine_config['images_dir']))
-	mkdir($engine_config['images_dir'], 0777);
+if(is_writable(root))
+{
+	if (!file_exists(root.'/uploads'))
+		mkdir(root.'/uploads', 0777);
 
-if (!file_exists($engine_config['avatar_dir']))
-	mkdir($engine_config['avatar_dir'], 0777);
+	if (!file_exists($engine_config['cache_dir']))
+		mkdir($engine_config['cache_dir'], 0777);
 
+	if (!file_exists($engine_config['images_dir']))
+		mkdir($engine_config['images_dir'], 0777);
+
+	if (!file_exists($engine_config['avatar_dir']))
+		mkdir($engine_config['avatar_dir'], 0777);
+		
+	$engine_config['cat_cache_dir']=$engine_config['cache_dir'].'/cats';
+	if (!file_exists($engine_config['cat_cache_dir']))
+		mkdir($engine_config['cat_cache_dir'], 0777);
+		
+		
+	$engine_config['cat_array_cache_file'] = $engine_config['cat_cache_dir'].'/categories_array.tmp';
+	$engine_config['cat_url_names_cache_file'] = $engine_config['cat_cache_dir'].'/categories_altnames_array.tmp';
+	$engine_config['cat_parent_altnames_array'] = $engine_config['cat_cache_dir'].'/cat_parent_altnames_array.tmp';
+}
+else
+	$error[]="Нет прав для создания системных каталогов";
 
 if($engine_config['cache_enable'] == 1)
 {
@@ -70,13 +87,9 @@ if($engine_config['cache_enable'] == 1)
 	$engine_config['json_cat_tree_cache_file'] = $engine_config['cat_cache_dir'].'/json_cat_tree_cache_file.tmp';
 	$engine_config['json_subcat_tree_cache_file'] = $engine_config['cat_cache_dir'].'/json_cat_tree_cache_file_';
 }
-$engine_config['cat_cache_dir']=$engine_config['cache_dir'].'/cats';
-if (!file_exists($engine_config['cat_cache_dir']))
-		mkdir($engine_config['cat_cache_dir'], 0777);
 
-	$engine_config['cat_array_cache_file'] = $engine_config['cat_cache_dir'].'/categories_array.tmp';
-	$engine_config['cat_url_names_cache_file'] = $engine_config['cat_cache_dir'].'/categories_altnames_array.tmp';
-	$engine_config['cat_parent_altnames_array'] = $engine_config['cat_cache_dir'].'/cat_parent_altnames_array.tmp';
+
+	
 
 
 

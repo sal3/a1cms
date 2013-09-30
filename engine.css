@@ -118,7 +118,8 @@ a.nickcolor_10 {color: #9400D3 !important;}
 	background: linear-gradient(#FAE2E2, #F2CACB);
 	border: 1px solid #EEB7BA;
 	color: #BE4741;
-	text-shadow: 0 1px 0 #FFFFFF;
+/* 	text-shadow: 0 1px 0 #FFFFFF; */
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.27);
 	border-radius: 5px 5px 5px 5px;
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;}
 .ui-state-success {background: #E5EDC4;

@@ -3,7 +3,7 @@ if (!defined('a1cms'))
 	die('Access denied to admin_category-init!');
 // global $WHEREI;
 	
-if ($WHEREI['admincenter']==true and $_GET['plugin']=='admin_category')
+if (isset($WHEREI['admincenter']) and $WHEREI['admincenter']==true and $_GET['plugin']=='admin_category')
 {
 	$parse_admin['{meta-title}']='Категории';
 

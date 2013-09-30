@@ -10,17 +10,7 @@ $plugin_list['comments']=array (
   'cat' => 'content',
   'priority' => 1000,
   'install_state' => 1,
-  'state' => 1,
+  'state' => 0,
   'icon' => 'comments.png',
 );
-/*
-$admin_menu[]=array(
-'pluginname'=>'comments',
-'title'=>'Комментарии',
-'cat' => 'configuration',
-'get_params'=>'',
-'position'=>100,
-'icon'=>"<i class='fam-wrench-orange'></i>",
-);*/
-
 ?>

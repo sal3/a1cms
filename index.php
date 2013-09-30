@@ -1,19 +1,23 @@
 ﻿<?php
+ini_set('display_errors',1);
+error_reporting(E_ALL);
+// error_reporting(E_ALL & ~E_NOTICE);
+// error_reporting(0);
+
 //подсчет общего времени выполнения скрипта
 $script_global_start_time = microtime(true);
 
 define('a1cms', 'energy', true);
 
-if (!$_COOKIE['PHPSESSID'] or (!is_array($_COOKIE['PHPSESSID']) and preg_match('/^[a-z0-9]{26}$/', $_COOKIE['PHPSESSID'])))//если куки нет совсем или идентификатор нормальный
-    session_start();
+if (!$_COOKIE['PHPSESSID'] or (!is_array($_COOKIE['PHPSESSID']) and preg_match('/^[a-z0-9]{26}$/', $_COOKIE['PHPSESSID'])))
+session_start();
 
 // глобальные переменные FIXME: в конфиг или хотя бы в engine (init)
-$error=array();
-$debug=array();
-$parse_main=array();
-//$_PLUGINS=array();
-//$QUERIES_COUNTER;
+
+$error=$debug=$parse_main=$message=$parse_plugins=$parse_main=array();
+$errorsLine='';
 $TEMPLATES_PARSE_TIME_COUNTER = (int) 0;
+$parse_main=array('{meta-title}'=>'','{meta-description}'=>'','{meta-keywords}'=>'',);
 
 $WHEREI['main']=true;
 
@@ -22,9 +26,9 @@ include_once 'sys/mysql.php';
 include_once 'sys/functions.php';
 include_once 'sys/init_plugins.php';
 
-// include_once 'sys/ipban.php';
-// include_once 'sys/auth.php'; //FIXME! в плагины
+//FIXME! в плагины
 include_once 'sys/cron.php';
+
 
 $_URI['request_uri']=rawurldecode($_SERVER['REQUEST_URI']);
 $_URI['parsed_url']=parse_url($_URI['request_uri']);
@@ -39,7 +43,7 @@ $main = get_template('main');
 event('before_parse_main', $main);
 
 // var_dump($parse_main['{content}']);
-if(!$parse_main['{content}'])
+if(!isset($parse_main['{content}']) or !$parse_main['{content}'])
 {
 	header("HTTP/1.0 404 Not Found");
 	$parse_main['{content}'] = showinfo("Внимание, обнаружена ошибка: 404 Not Found",
@@ -66,6 +70,7 @@ if(!$parse_main['{content}'])
 	if($debug)
 	{
 		$debug[] = 'Запросов: '.$QUERIES_COUNTER;
+		if(isset($QUERIES_TIME_COUNTER))
 		$debug[] = 'Запросы заняли: '.number_format($QUERIES_TIME_COUNTER, 5).' сек';
 		$debug[] = 'Парсинг шаблонов занял: '.number_format($TEMPLATES_PARSE_TIME_COUNTER, 5).' сек';
 		$debug[] = 'Скрипт выполнен за: '.number_format(microtime(true) - $script_global_start_time, 5).' сек';

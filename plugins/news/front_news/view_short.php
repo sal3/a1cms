@@ -9,7 +9,6 @@ if (!defined('a1cms'))
 	global $engine_config, $debug, $error, $parse_main, $LANG;
 // 	global $error, $parse_main, $no_cache, $LANG, $news;
 	
-	$news_query_array=array('variables'=>array());
 	$templatename = 'shortstory_row';
 	$data=array('query_variables'=>array(), 'news_row'=>array(), 'parse'=>array(), 'tpl'=>'', 'page'=>$page);
 	
@@ -17,11 +16,14 @@ if (!defined('a1cms'))
 	$pagination['before_page_number']='/'.$LANG['page'].'/';
 	$pagination['after_page_number']='';
 	$pagination['now_url']=$engine_config['site_path'];
+	
+	$news_query_array=array('variables'=>array());
+	$news_count_query_array=array('variables'=>array());
 
 	
 	if(!$data['page'])
 	{
-		if($_GET['page'])
+		if(isset($_GET['page']))
 			$data['page']=intval($_GET['page']);
 		else
 			$data['page']=1;
@@ -95,12 +97,11 @@ if (!defined('a1cms'))
 	// пробуем вытянуть с кеша
 	if($engine_config['cache_enable']==1 and $news_config['use_cache']==1)
 	{
-// 		$cacheenabled=1;// потом проверяется для записи в кеш
 		$file_cache_name = get_short_text_cache_name ($correct_path, $data['page']);
 		$short_text_content = get_cache($file_cache_name,$news_config['short_cache_time']);
 	}
 
-	if(!$short_text_content)
+	if(!isset($short_text_content) or !$short_text_content)
 	{
 		// лимит
 		if($data['page']>1)
@@ -110,16 +111,23 @@ if (!defined('a1cms'))
 		
 		
 		// стандартные параметры для выборки количества
-		$news_count_query_array['select']=array_merge((array) $news_query_array['select'],array('count(*) postsquantity'));
+		$postquantity_select=array('count(*) postsquantity');
+		if(isset($news_count_query_array['select']) and $news_count_query_array['select'])
+			$news_count_query_array['select']=array_merge((array) $news_query_array['select'],$postquantity_select);
+		else
+			$news_count_query_array['select']=$postquantity_select;
+
 		$news_count_query_array['from']='`{P}_news`';
 		$news_count_query_array['where'][]='`approved`=1';
 		
 		
 		// параметры для выборки новостей
-		$news_query_array['select']=array_merge(
-		(array) $news_query_array['select'],
-		array('`{P}_news`.`id` newsid' ,'`title`', '`url_name`', '`category_id`', '`{P}_news`.`date`', '`poster`', '`short_text`', '`user_name`','`{P}_news`.`comments_quantity`', '`views`')
-		);
+		$news_select=array('`{P}_news`.`id` newsid' ,'`title`', '`url_name`', '`category_id`', '`{P}_news`.`date`', '`poster`', '`short_text`', '`user_name`','`{P}_news`.`comments_quantity`', '`views`');
+		if(isset($news_query_array['select']) and $news_query_array['select'])
+			$news_query_array['select']=array_merge((array) $news_query_array['select'],$news_select);
+		else
+			$news_query_array['select']=$news_select;
+			
 		$news_query_array['from']='`{P}_news`';
 		$news_query_array['where'][]='`approved`=1';
 		$news_query_array['order_by'] = array('`pinned` DESC', '`{P}_news`.`date` DESC');
@@ -129,12 +137,14 @@ if (!defined('a1cms'))
 		
 		// считаем колличество новостей
 		$news_count_query=make_query($news_count_query_array);
-		$news_count_row = single_query($news_count_query, $news_query_array['variables']) or $error[]="Ошибка определения количества новостей";
-		$postsquantity = $news_count_row['postsquantity'];
+// 		echo $news_count_query;
+		$news_count_row = single_query($news_count_query, $news_query_array['variables']) 
+		or $error[]="Ошибка определения количества новостей";
+// 		$postsquantity = $news_count_row['postsquantity'];
 		
 // 		var_dump($news_query_array['variables']);
 		//если есть новости
-		if(ceil($postsquantity/$news_config['news_on_page']) >= $data['page'])//ceil - округляем в бОльшую сторону, чтоб работала последняя страница
+		if(ceil($news_count_row['postsquantity']/$news_config['news_on_page']) >= $data['page'])//ceil - округляем в бОльшую сторону, чтоб работала последняя страница
 		{
 			$news_query = make_query($news_query_array);
 			$news_result = query($news_query, $news_query_array['variables']) or $error[]="Ошибка выборки новостей";
@@ -162,35 +172,46 @@ if (!defined('a1cms'))
 				$data['parse']['{author_name}'] = $data['news_row']['user_name'];
 				$data['parse']['{comments-num}'] = $data['news_row']['comments_quantity'];
 				$data['parse']['{views}'] = $data['news_row']['views'];
-				$data['parse']['{author_group_id}'] = $data['news_row']['user_group'];
+// 				$data['parse']['{author_group_id}'] = $data['news_row']['user_group'];
 				
-				preg_match("/\[poster\](.*?)\[\/poster\]/isu", $data['tpl'], $poster);
-				if($data['news_row']['poster'])
-					$data['tpl'] = str_replace($poster['0'], $poster['1'], $data['tpl']);
-				else
-					$data['tpl'] = str_replace($poster['0'], '', $data['tpl']);
+// 				preg_match("/\[poster\](.*?)\[\/poster\]/isu", $data['tpl'], $poster);
+// 				if($data['news_row']['poster'])
+// 					$data['tpl'] = str_replace($poster['0'], $poster['1'], $data['tpl']);
+// 				else
+// 					$data['tpl'] = str_replace($poster['0'], '', $data['tpl']);
 
-				$tmp_content .= parse_template($data['tpl'],$data['parse']);// парсим шаблон
+				// парсим шаблон
+				if(isset($tmp_content))
+					$tmp_content .= parse_template($data['tpl'],$data['parse']);
+				else
+					$tmp_content = parse_template($data['tpl'],$data['parse']);
 			}//конец цикла while ($data['news_row'] = mysql_fetch_array($news_result))
 			
-			
-			$short_text_content .= parse_template(get_template('shortstory'),array('{rows}'=>$tmp_content));
-			
+			if(isset($short_text_content))
+				$short_text_content .= parse_template(get_template('shortstory'),array('{rows}'=>$tmp_content));
+			else
+				$short_text_content = parse_template(get_template('shortstory'),array('{rows}'=>$tmp_content));
+
 			//пагинация
-			$short_text_content .= universal_link_bar($postsquantity,$data['page'],$pagination['now_url'],$news_config['news_on_page'],$news_config['pagelinks'],$pagination['before_page_number'],$pagination['after_page_number']);
+			$short_text_content .= universal_link_bar($news_count_row['postsquantity'],$data['page'],$pagination['now_url'],$news_config['news_on_page'],$news_config['pagelinks'],$pagination['before_page_number'],$pagination['after_page_number']);
 		}
 		
 		if($engine_config['cache_enable']==1 and $news_config['use_cache']==1)
 			set_cache ($file_cache_name, $short_text_content);
 	}
 
-	while(preg_match("/\[edit\|(.*?)\](.*?)\[\/edit\]/isu", $short_text_content, $post))
+	if(isset($short_text_content) and $short_text_content)
 	{
-		if($news_config['allow_edit_all_posts'] or ($post['2']==$_SESSION['user_name'] and in_array($_SESSION['user_name'],$news_config['allow_edit_own_posts'])))
-			$short_text_content = str_replace($post['0'], $post['2'], $short_text_content);
-		else
-			$short_text_content = str_replace($post['0'], '', $short_text_content);
+		while(preg_match("/\[edit\|(.*?)\](.*?)\[\/edit\]/isu", $short_text_content, $post))
+		{
+			if($news_config['allow_edit_all_posts'] or ($post['2']==$_SESSION['user_name'] and in_array($_SESSION['user_name'],$news_config['allow_edit_own_posts'])))
+				$short_text_content = str_replace($post['0'], $post['2'], $short_text_content);
+			else
+				$short_text_content = str_replace($post['0'], '', $short_text_content);
+		}
+	
+		$parse_main['{content}'] =  $short_text_content;
 	}
-
-	$parse_main['{content}'] =  $short_text_content;
+	else
+		$parse_main['{content}'] ='';
 ?>

@@ -8,7 +8,7 @@ $plugin_list['users']=array (
   'site' => '',
   'priority' => 1000,
   'install_state' => '1',
-  'state' => 1,
+  'state' => 0,
   'icon' => 'icons/group.png',
 );
 

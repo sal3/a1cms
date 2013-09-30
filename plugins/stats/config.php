@@ -10,7 +10,7 @@ $plugin_list['stats']=array (
   'cat' => 'content',
   'priority' => 1000,
   'install_state' => 2,
-  'state' => 0,
+  'state' => 1,
   'icon' => 'stats.png',
 );
 
