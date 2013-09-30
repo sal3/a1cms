@@ -139,7 +139,7 @@ if (!defined('a1cms'))
 		$news_count_query=make_query($news_count_query_array);
 // 		echo $news_count_query;
 		$news_count_row = single_query($news_count_query, $news_query_array['variables']) 
-		or $error[]="Ошибка определения количества новостей";
+		or $error[]="Ошибка определения количества новостей.";
 // 		$postsquantity = $news_count_row['postsquantity'];
 		
 // 		var_dump($news_query_array['variables']);
@@ -147,7 +147,7 @@ if (!defined('a1cms'))
 		if(ceil($news_count_row['postsquantity']/$news_config['news_on_page']) >= $data['page'])//ceil - округляем в бОльшую сторону, чтоб работала последняя страница
 		{
 			$news_query = make_query($news_query_array);
-			$news_result = query($news_query, $news_query_array['variables']) or $error[]="Ошибка выборки новостей";
+			$news_result = query($news_query, $news_query_array['variables']) or $error[]="Ошибка выборки новостей.";
 			$global_shortstory_tpl=get_template($templatename);
 			
 			while ($data['news_row'] = fetch_assoc($news_result))

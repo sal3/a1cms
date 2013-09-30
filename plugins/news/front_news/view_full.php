@@ -144,6 +144,7 @@ if (!defined('a1cms'))
 	}
 	
 	if(isset($data['full_text_content']))
+	{
 		while(preg_match("/\[edit\|(.*?)\](.*?)\[\/edit\]/isu", $data['full_text_content'], $post))
 		{
 			if(
@@ -155,5 +156,6 @@ if (!defined('a1cms'))
 				$data['full_text_content'] = str_replace($post['0'], '', $data['full_text_content']);
 		}
 	
-	$parse_main['{content}'] =  $data['full_text_content'];
+		$parse_main['{content}'] =  $data['full_text_content'];
+	}
 ?>
