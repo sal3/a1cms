@@ -1,0 +1,207 @@
+body {
+	padding-top: 60px;
+	/*padding-bottom: 40px;*/
+	background: #eee;
+	overflow-y: scroll;
+	color: #707070;
+
+}
+body, input, button, select, textarea {
+	font-family: Arial,sans-serif;
+}
+
+a {
+	color: #599cc7;
+}
+.container-fluid.content {
+	/*padding: 30px 10px 10px 0px;*/
+	padding: 20px;
+}
+.sidebar-nav {
+	/*padding: 9px 0;*/
+
+}
+
+.navpannel .accordion-group {
+	background: #fff;
+}
+.navpannel .accordion-group a:hover{
+	text-decoration:none;
+}
+
+.general {
+	padding: 20px;
+	margin:0px;
+	background: #fff;
+	border-radius: 4px;
+}
+/*.general .span3 {
+	width: 260px;
+	margin-left: 20px;
+}*/
+
+.general, .accordion-group {
+	border: 1px solid rgb(189, 189, 189);
+}
+
+#MenuAccordion .accordion-inner {
+	padding: 0px;
+}
+#MenuAccordion .accordion-toggle {
+	padding: 8px;
+	background: #eaeaea;
+/* 	background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); */
+	background-size: 100%;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#fdfdfd),color-stop(100%,#eaeaea));
+	background-image: -webkit-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: -moz-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: -o-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: linear-gradient(top,#fdfdfd,#eaeaea);
+	text-shadow: 0 1px white;
+	border-bottom: 1px solid #CDCDCD;
+	color: #636363;
+	font-weight: 600;
+	border-radius: 3px;
+}
+#MenuAccordion .accordion-item a {
+	padding: 8px;
+	background: #f9f9f9;
+	box-shadow: 0 -1px 0 #eaeaea inset;
+	display: block;
+}
+
+#MenuAccordion .accordion-item a:hover {
+	background: #EAF3FA;
+}
+#MenuAccordion a, #MenuAccordion a:hover {
+	color: #707070;
+}
+
+/*.sidebar-background {
+	position: fixed;
+	z-index: -1;
+	width: 200px;
+	background: #eaeaea;
+	top: 0;
+	left: 0;
+	height: 100%;
+	border-right: 1px solid #ccc;
+}*/
+
+/*.nav-tabs {
+	background: #eaeaea;
+	background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+	background-size: 100%;
+	background-image: -webkit-gradient(linear,50% 0,50% 100%,color-stop(0%,#fdfdfd),color-stop(100%,#eaeaea));
+	background-image: -webkit-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: -moz-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: -o-linear-gradient(top,#fdfdfd,#eaeaea);
+	background-image: linear-gradient(top,#fdfdfd,#eaeaea);
+	text-shadow: 0 1px white;
+	color: #636363;
+	font-weight: 600;
+	border-radius: 3px;
+	border: 1px solid #CDCDCD;
+}*/
+/*.nav>li>a, .nav>li>a:hover {
+	border-radius: 0px;
+}*/
+
+.form-signin {
+	max-width: 300px;
+	padding: 19px 29px 29px;
+	margin: 0 auto 20px;
+	/*background-color: #fff;
+	border: 1px solid #e5e5e5;*/
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+	box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading, .form-signin .checkbox {
+	margin-bottom: 10px;
+}
+.form-signin input[type="text"], .form-signin input[type="password"] {
+	font-size: 16px;
+	height: auto;
+	margin-bottom: 15px;
+	padding: 7px 9px;
+}
+textarea {
+	min-height:70px;
+}
+.input-prepend textarea {
+border-radius: 0px 4px 4px 4px;
+margin-bottom: 0px;
+}
+
+/* плюшка удаления */
+.actions {
+	width: 96px;
+	overflow: hidden;
+	float: right;
+ 	margin-top: 0px; 
+	margin-right: -5px;
+	
+}
+.actions_url {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	width: 192px;
+}
+.actions_url a {
+	float: left;
+ 	width: 20px;
+	margin-left: 2px;
+	font-size: 12px;
+}
+
+
+@media (max-width: 979px) {
+	body {
+		padding-top: 0;
+	}
+}
+
+
+.adm_sp {
+	width:35% !important;
+	text-align:left !important;
+}
+.adc_input_txt {
+	width:60%;
+}
+
+/* чекбокс */
+input[type="checkbox"] + label.checkbox i{
+	opacity: 0.3;
+}
+input[type="checkbox"]:checked + label.checkbox i{
+	opacity: 1;
+}
+input[type="checkbox"]:checked + label.checkbox{
+	background-image: none;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.input-prepend .btn {
+	border-radius: 0px 5px 5px 0px !important;
+}
+
+/*
+	input#alert_button {
+		display: block;
+		margin-top: 20px;
+	}
+	
+	.simpleColorDisplay {
+		float: left;
+		font-family: Helvetica;
+	}
+	
+	.button {
+		clear: right;
+	}*/

@@ -1,0 +1,1 @@
+<tr><td><b>{name}</b></td><td><textarea id="custom_param_{parameter_id}" name="custom[textarea][{parameter_id}]">{value}</textarea></td></tr>

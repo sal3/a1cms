@@ -1,0 +1,1 @@
+<div class='accordion-item'><a href="{link}"><img src="{icon}"> {title}</a></div>

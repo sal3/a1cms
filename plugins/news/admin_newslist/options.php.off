@@ -1,0 +1,9 @@
+<?php
+$news_config=array(
+	'allow_add_posts'=>array(1,2,3,4,6),
+	'post_wout_moderation'=>array(1,2,3,6),
+	'allow_edit_all_posts'=>array(1,2,6),
+	'allow_edit_own_posts'=>array(1,2,3,4,6),
+	'allow_post_main'=>array(1,2,3,4,6),
+);
+?>

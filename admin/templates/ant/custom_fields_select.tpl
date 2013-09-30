@@ -1,0 +1,1 @@
+<tr><td><b>{name}</b></td><td><select id="custom_param_{parameter_id}" name="custom[select][{parameter_id}]">{value}</select></td></tr>

@@ -1,0 +1,41 @@
+.plugin-active, .plugin-installed {
+	background-color: rgb(115, 180, 117);
+}
+.plugin-not-need-install {
+	background-color: rgb(114, 177, 207);
+}
+.inst_on_btn {
+	width:129px;
+}
+#pluginConfigLabel {
+	height: 30px;
+}
+#pluginConfigModal .input-prepend span.add-on {
+	width: 170px;
+}
+#pluginConfigModal .input-prepend input[type="text"] {
+	width: 330px;
+}
+#pluginConfigModal select {
+	width:345px;
+}
+
+/* плюшка удаления */
+/*.modal-body {
+	width: 560px;
+	overflow: hidden;
+}
+.modal-body .btn-group {
+	width: 260px;
+}
+.modal-body-items {
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	width: 1120px;
+}
+.modal-body-items div {
+	float: left;
+	width: 560px;
+}*/

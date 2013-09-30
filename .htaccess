@@ -1,0 +1,15 @@
+php_flag register_globals off
+php_flag magic_quotes_gpc off
+php_flag magic_quotes_runtime off
+php_flag magic_quotes_sybase off
+
+# BEGIN
+# <IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RedirectMatch 404 "^/(uploads\/files|uploads\/posts|lib|cache|cronmarks|sys)/.*"
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+# </IfModule>
+# END
