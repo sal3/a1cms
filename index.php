@@ -39,7 +39,7 @@ event('plugin_init_by_uri', $_URI);
 $main = get_template('main');
 // include_once 'sys/categoriestree.php';
 // include_once 'sys/ad.php';
-		
+
 event('before_parse_main', $main);
 
 // var_dump($parse_main['{content}']);
