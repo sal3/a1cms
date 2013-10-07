@@ -10,7 +10,7 @@ date_default_timezone_set('Europe/Kiev');
 $engine_config=array (
   'site_title' => 'A1CMS - система уплавления контентом',
   'site_short_title' => 'A1CMS',
-  'site_description' => 'A1CMS - удобная, гибкая и быстрая система уплавления сайтом.',
+  'site_description' => 'A1CMS - удобная, гибкая и быстрая система управления сайтом.',
   'site_keywords' => 'A1CMS, CMS, система управления контентом, движок сайта, скрипт',
   'charset' => 'utf-8',
   'subfolder' => '',

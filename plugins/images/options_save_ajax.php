@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('root', substr(dirname( __FILE__ ), 0, -15));
 include_once root.'/ajax/ajax_init.php';
@@ -30,8 +30,8 @@ else
 // 	 var_dump($_POST);
 	//$editarr=$_POST;
 
-	if (!file_exists($options_path))
-		$error[]='Файл options.php не найден';
+	if (!is_writable($options_path))
+		$error[]='Файл options.php не найден либо недоступен для записи';
 	else
 	{	
 		$plugin_options_array_keys=array_keys($plugin_options_array);
@@ -64,36 +64,37 @@ else
 					$editarr[$v]=$_POST[$v];
 		}
 		
-		if ($_POST['max_size_mb']<=0)
+		if (!is_numeric($_POST['max_size_mb']) or $_POST['max_size_mb']<=0)
 			$error[]="Опция 'Максимальный размер изображения' должна быть положительным числом.";
 		else
 			$editarr['max_size_mb']=intval($_POST['max_size_mb']);
 		
-		if ($_POST['max_height']<=0)
+		if (!is_numeric($_POST['max_height']) or $_POST['max_height']<=0)
 			$error[]="Опция 'Максимальная высота изображения' должна быть положительным числом.";
 		else
 			$editarr['max_height']=intval($_POST['max_height']);
 			
-		if ($_POST['max_width']<=0)
+		if (!is_numeric($_POST['max_width']) or $_POST['max_width']<=0)
 			$error[]="Опция 'Максимальная ширина изображения' должна быть положительным числом.";
 		else
 			$editarr['max_width']=intval($_POST['max_width']);
-		if ($_POST['quality']<=0)
+			
+		if (!is_numeric($_POST['quality']) or $_POST['quality']<=0)
 			$error[]="Опция 'Уменьшать качество изображения' должна быть положительным числом.";
 		else
 			$editarr['quality']=intval($_POST['quality']);
 		
-		if ($_POST['curl_timeout']<=0)
+		if (!is_numeric($_POST['curl_timeout']) or $_POST['curl_timeout']<=0)
 			$error[]="Опция 'Ширина изображения после мультизагрузки' должна быть положительным числом.";
 		else
 			$editarr['curl_timeout']=intval($_POST['curl_timeout']);
 			
-		if ($_POST['random_str_quantity']<=0)
+		if (!is_numeric($_POST['random_str_quantity']) or $_POST['random_str_quantity']<=0)
 			$error[]="Опция 'Длина автогенерируемого имени изображея' должна быть положительным числом.";
 		else
 			$editarr['random_str_quantity']=intval($_POST['random_str_quantity']);
 			
-		if ($_POST['cache_time']<=0)
+		if (!is_numeric($_POST['cache_time']) or $_POST['cache_time']<=0)
 			$error[]="Опция 'Время кеширования количества загруженных изображений' должна быть положительным числом.";
 		else
 			$editarr['cache_time']=intval($_POST['cache_time']);

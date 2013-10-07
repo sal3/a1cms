@@ -5,7 +5,7 @@ if (!defined('a1cms'))
 $news_config=array (
   'use_cache' => false,
   'news_on_main' => true,
-  'require_poster' => false,
+  'require_poster' => true,
   'redirect_to_rigth_news_path' => true,
   'news_on_page' => 10,
   'pagelinks' => 10,

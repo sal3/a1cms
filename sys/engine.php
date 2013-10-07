@@ -20,6 +20,8 @@ $FC['iplabel'] =md5($FC['ip'].$FC['useragent']);
 $engine_config['engine_name']="A1 CMS";
 $engine_config['engine_version']="0.1";
 
+if (!$engine_config['site_short_title'])
+	$engine_config['site_short_title']=$engine_config['site_title'];
 
 // define('root', $_SERVER['DOCUMENT_ROOT'].$engine_config['subfolder']);
 $engine_config['site_path']= 'http://'.$_SERVER['HTTP_HOST'].$engine_config['subfolder'];
@@ -27,12 +29,10 @@ $engine_config['http_avatar_path']=$engine_config['site_path'].'/uploads/avatar/
 
 //шаблон
 //блок должен располагаться после путей
-
 $engine_config['template_path'] = $template_path = root.'/templates/'.$engine_config['template_name'];// FIXME: оставить одну переменную
 $engine_config['template_path_http'] = $engine_config['site_path'].'/templates/'.$engine_config['template_name'];
 
 //шаб админки
-
 $engine_config['admincenter_tpl_path'] = root.'/admin/templates/'.$engine_config['admin_template_name'];
 $engine_config['admin_template_path_http'] = $engine_config['site_path'].'/admin/templates/'.$engine_config['admin_template_name'];
 
@@ -91,12 +91,7 @@ if($engine_config['cache_enable'] == 1)
 
 	
 
-
-
-
-
-
-// //реклама
+//реклама
 // $engine_config['ad_enable'] = 1;
 
 // //похожие
