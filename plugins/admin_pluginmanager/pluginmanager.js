@@ -45,7 +45,6 @@ function pluginInfo(plugin_name) {
 
 	$.ajax({
 		url: site_path+'/plugins/'+plugin_name+'/info.html', 
-// 		data: {value: 1},
 		type: 'get',
 		error: function(){
 			$("#myModalLabel").html("Ошибка");
@@ -61,6 +60,8 @@ function pluginInfo(plugin_name) {
 			$("#myModal").modal('show');
 		}
 	});
+	
+	
 // 	$.get(site_path+'/plugins/'+plugin_name+'/info.txt',function(data)
 // 	{
 // 		alert(data);

@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('root', substr(dirname( __FILE__ ), 0, -15));
 include_once root.'/ajax/ajax_init.php';
@@ -25,8 +25,8 @@ else
 {
 // 	 var_dump($_POST);
 
-	if (!file_exists($options_path))
-		$error[]='Файл options.php не найден';
+	if (!is_writable($options_path))
+		$error[]='Файл options.php не найден либо недоступен для записи';
 	else
 	{
 		$bool_options_arr=explode(',', $_POST['bool_options']);

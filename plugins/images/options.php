@@ -15,7 +15,7 @@ $image_options=array (
   'cache_time' => 3600,
   'allow_control' => 
   array (
-    0 => 1,
+    0 => '1',
   ),
 );
 ?>

@@ -1,6 +1,4 @@
 <?php
-//error_reporting(7);
-error_reporting(0);
 define('a1cms', 'energy', true);
 header('Expires: ' . gmdate('r', 0));
 session_cache_limiter('nocache');

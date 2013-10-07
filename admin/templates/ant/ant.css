@@ -129,6 +129,9 @@ a {
 	margin-bottom: 15px;
 	padding: 7px 9px;
 }
+.input-prepend {
+	width: 99%;
+}
 textarea {
 	min-height:70px;
 }
