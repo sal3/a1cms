@@ -30,6 +30,13 @@ function dbconnect()
 		else
 			return true;//коннект создался
 	}
+	
+	if(isset($mysql_error))
+	{
+		$dbconnect=false;
+		$error=array_merge((array) $error,$mysql_error);
+		return false; //коннект не создался
+	}
 	else
 		return true; //коннект уже был
 }

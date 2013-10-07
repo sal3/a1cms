@@ -77,9 +77,12 @@ $(document).ready(function(){
 });
 
 //плагин обертывания текста тегами в textarea
-(function($) {
-  $.fn.wrapSelected = function(open, arg2, arg3, arg4, close) {
-    return this.each(function() {
+(function($) 
+{
+  $.fn.wrapSelected = function(open, arg2, arg3, arg4, close) 
+  {
+    return this.each(function() 
+    {
       var textarea = $(this);
       var value = textarea.val();
       var start = textarea[0].selectionStart;
@@ -98,14 +101,18 @@ function modalCreate()
 		theme=ADMIN_THEME;
 	else
 		theme=THEME;
+	$.ajax({
+		url: theme+"/modaldialog.jsontpl",
+		type: 'get',
+		complete: function(data){
+			$('body').append(data.responseText);
 
-	$.get(theme+"/modaldialog.jsontpl",function(data){
-			$('body').append(data);
-
-		//удалять по закрытии
-		$("#myModal").on('hidden', function () {
-			$("#myModal").remove();
-		})
+			//удалять по закрытии
+			$("#myModal").on('hidden', function () {
+				$("#myModal").remove();
+			})
+		},
+		dataType: 'text'
 	});
 }
 

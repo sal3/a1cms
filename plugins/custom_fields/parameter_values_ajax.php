@@ -1,13 +1,7 @@
 <?php
-error_reporting(7);
-define('a1cms', 'energy', true);
-header('Expires: ' . gmdate('r', 0));
-session_cache_limiter('nocache');
-if (!$_COOKIE['PHPSESSID'] or preg_match('/^[a-z0-9]{26}$/', $_COOKIE['PHPSESSID']))//если куки нет совсем или идентификатор нормальный
-    session_start();
-
 define('root', substr(dirname( __FILE__ ), 0, -22));
 
+include_once root.'/ajax/ajax_init.php';
 include_once root.'/sys/engine.php';
 include_once root.'/sys/mysql.php';
 include_once root.'/sys/functions.php';
