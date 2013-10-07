@@ -8,7 +8,7 @@
 					<div id="dropdown-{newsid}" class="dropdown-menu has-tip">
 						<ul>
 							<li><a href="javascript:PostEdit('{newsid}', 'full')">Быстрое редактирование</a></li>
-							<li><a href="/admin/index.php?plugin=admin_news&mod=editnews&amp;action=editnews&amp;newsid={newsid}">Полное редактирование</a></li>
+							<li><a href="/admin/index.php?plugin=news&mod=editnews&amp;action=editnews&amp;newsid={newsid}">Полное редактирование</a></li>
 							<li class="divider"></li>
 							<li><a href="#" onClick="javascript:PostDel('{newsid}'); return false;"> Удалить</a></a></li>
 						</ul>

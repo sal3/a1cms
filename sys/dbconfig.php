@@ -6,6 +6,6 @@ $host = '';
 $dbase_user_name = '';
 $dbase_user_password = '';
 $db_name = '';
-$table_prefix = 'a1';
+$table_prefix = '';
 
 ?>
