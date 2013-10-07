@@ -10,7 +10,7 @@ if($WHEREI['main']==true)
 	function comments_add_form($data)
 	{
 		global $parse_plugins, $comment_options, $engine_config;
-		
+	
 		include_once 'options.php';
 
 		if ($data['news_row']['newsid'] and $data['news_row']['newscomments_quantity'])

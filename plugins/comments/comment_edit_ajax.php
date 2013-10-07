@@ -30,9 +30,11 @@ $vars=array(
 	'text'=>$text,
 	);
 
+// 	var_dump($comment_options);
+	
 if($_GET['action'] == 'add')
 {
-	if (in_array($_SESSION['user_group'], $comments_config['allow_add_comments']))
+	if (in_array($_SESSION['user_group'], $comment_options['allow_add_comments']))
 	{
 		if($_GET['text'])
 			query("insert into `{P}_comments` (`news_id`, `user_id`, `date`, `user_name`, `text`)
@@ -104,9 +106,9 @@ elseif($_GET['action'] == 'save')
 	$row = fetch_assoc($result);
 
 	//проверяем права
-	if((in_array ($_SESSION['user_group'], $comments_config['allow_edit_all_comments'])) //если разрешено редактирование любого камента
+	if((in_array ($_SESSION['user_group'], $comment_options['allow_edit_all_comments'])) //если разрешено редактирование любого камента
 	or
-	(in_array ($_SESSION['user_group'], $comments_config['allow_edit_own_comments']) and ($row['user_id']==$_SESSION['user_id'])) //или разрешено редактировать свои
+	(in_array ($_SESSION['user_group'], $comment_options['allow_edit_own_comments']) and ($row['user_id']==$_SESSION['user_id'])) //или разрешено редактировать свои
 	)
 	{
 		//обновляем каммент
@@ -134,8 +136,8 @@ elseif($_GET['action'] == 'delete')
 
 	if(!$row['user_id'])
 		$error[] = "Ошибка user_id";
-	elseif(in_array ($_SESSION['user_group'], $comments_config['allow_edit_all_comments'])
-	or (in_array ($_SESSION['user_group'], $comments_config['allow_edit_own_comments']) and $row['user_name']==$_SESSION['user_name'])
+	elseif(in_array ($_SESSION['user_group'], $comment_options['allow_edit_all_comments'])
+	or (in_array ($_SESSION['user_group'], $comment_options['allow_edit_own_comments']) and $row['user_name']==$_SESSION['user_name'])
 	)
 		{
 			query("delete from `{P}_comments` where `id` = i<comm_id>", $vars) or $error[] = 'Ошибка удаления';

@@ -8,18 +8,27 @@ $dbconnect='';
 
 function dbconnect()
 {
-    global $error, $dbconnect, $host, $dbase_user_name, $dbase_user_password, $db_name; //FIXME: плохо делать глобал этих переменных
+	global $error, $dbconnect, $host, $dbase_user_name, $dbase_user_password, $db_name; //FIXME: плохо делать глобал этих переменных
     
-    if(!$dbconnect)
-    {
-	$dbconnect = @mysqli_connect ($host, $dbase_user_name, $dbase_user_password) or $mysql_error[] = "Не удалось соединиться с mysql-сервером.";
-	
-	if($dbconnect)
+	if(!$dbconnect)
 	{
-		$mysqli_select_db=mysqli_select_db ($dbconnect, $db_name) or $mysql_error[] = "Не удалось выбрать базу '$db_name'.";
-	
-		if($mysqli_select_db)
-			mysqli_query($dbconnect, "SET NAMES 'utf8'")or $mysql_error[] = "Не удалось установить кодировку соединения с базой.";
+		$dbconnect = @mysqli_connect ($host, $dbase_user_name, $dbase_user_password) or $mysql_error[] = "Не удалось соединиться с mysql-сервером.";
+		
+		if($dbconnect)
+		{
+			$mysqli_select_db=mysqli_select_db ($dbconnect, $db_name) or $mysql_error[] = "Не удалось выбрать базу $db_name.";
+		
+			if($mysqli_select_db)
+				mysqli_query($dbconnect, "SET NAMES 'utf8'")or $mysql_error[] = "Не удалось кодировку соединения с базой.";
+		}
+		
+		if(isset($mysql_error))
+		{
+			$error=array_merge((array) $error,$mysql_error);
+			return false; //коннект не создался
+		}
+		else
+			return true;//коннект создался
 	}
 	
 	if(isset($mysql_error))
@@ -29,10 +38,7 @@ function dbconnect()
 		return false; //коннект не создался
 	}
 	else
-		return true;//коннект создался
-    }
-    else
-	return true; //коннект уже был
+		return true; //коннект уже был
 }
 
 function query($query, $variables_array=false, $dont_quotes=false)

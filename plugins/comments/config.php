@@ -10,7 +10,7 @@ $plugin_list['comments']=array (
   'cat' => 'content',
   'priority' => 1000,
   'install_state' => 1,
-  'state' => 0,
+  'state' => 1,
   'icon' => 'comments.png',
 );
 ?>
