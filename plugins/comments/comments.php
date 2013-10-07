@@ -8,7 +8,7 @@ include_once 'config.php';
 function comments ($data)
 { //$data['newsid']=false, $now_url=false, $data['commentid']=false, $data['author']=false, $data['newsauthor']=false
 
-	global $comment_options, $LANG, $error; //$headers,
+	global $comment_options, $LANG, $error, $engine_config; //$headers,
 
 	$vars=array(
 	'newsid'=>$data['news_row']['newsid'],
@@ -171,11 +171,11 @@ function comments ($data)
 // 				$parse_main['{meta-description}']="Ladyshoes - это лучшая обувь по ценам производителя";
 // 				$parse_main['{meta-keywords}']="обувь, сапоги, туфли, босоножки, ботинки";
 // 			}
-			
 			if($comments_row['avatar'])
 				$avatar=$engine_config['http_avatar_path'].$comments_row['avatar'];
 			else
 				$avatar=$engine_config['default_avatar_path'];
+				
 
 			$parse['{avatar}'] = $avatar;
 
