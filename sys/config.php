@@ -8,10 +8,10 @@ mb_regex_encoding("UTF-8");
 date_default_timezone_set('Europe/Kiev');
 
 $engine_config=array (
-  'site_title' => 'A1CMS',
-  'site_short_title' => '',
-  'site_description' => '',
-  'site_keywords' => '',
+  'site_title' => 'A1CMS - система уплавления контентом',
+  'site_short_title' => 'A1CMS',
+  'site_description' => 'A1CMS - удобная, гибкая и быстрая система управления сайтом.',
+  'site_keywords' => 'A1CMS, CMS, система управления контентом, движок сайта, скрипт',
   'charset' => 'utf-8',
   'subfolder' => '',
   'template_name' => 'juery-ui',
@@ -62,6 +62,5 @@ $engine_config=array (
   'alloved_avatar_maxwidth' => 110,
   'alloved_avatar_maxheight' => 110,
   'alloved_avatar_maxsize' => 100,
-  'is_installed' => 0,
 );
 ?>

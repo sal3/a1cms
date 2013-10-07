@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('root', substr(dirname( __FILE__ ), 0, -13));
 include_once root.'/ajax/ajax_init.php';
@@ -29,10 +29,10 @@ else
 // 	 var_dump($_POST);
 	//$editarr=$_POST;
 
-	if (!file_exists($options_path))
-		$error[]='Файл options.php не найден';
+	if (!is_writable($options_path))
+		$error[]='Файл options.php не найден либо недоступен для записи';
 	else
-	{	
+	{
 		$plugin_options_array_keys=array_keys($plugin_options_array);
 		foreach($_POST as $k=>$v)
 		{
@@ -56,57 +56,57 @@ else
 					$editarr[$v]=$_POST[$v];
 		}
 		
-		if ($_POST['news_on_page']<=0)
+		if (!is_numeric($_POST['news_on_page']) or $_POST['news_on_page']<=0)
 			$error[]="Опция 'Новостей на странице' должна быть положительным числом.";
 		else
 			$editarr['news_on_page']=intval($_POST['news_on_page']);
 			
-		if ($_POST['pagelinks']<=0)
+		if (!is_numeric($_POST['pagelinks']) or $_POST['pagelinks']<=0)
 			$error[]="Опция 'Cтраниц в меню навигации' должна быть положительным числом.";
 		else
 			$editarr['pagelinks']=intval($_POST['pagelinks']);
 			
-		if ($_POST['news_in_admin_on_page']<=0)
+		if (!is_numeric($_POST['news_in_admin_on_page']) or $_POST['news_in_admin_on_page']<=0)
 			$error[]="Опция 'Новостей на страницу в админке' должна быть положительным числом.";
 		else
 			$editarr['news_in_admin_on_page']=intval($_POST['news_in_admin_on_page']);
 		
-		if ($_POST['short_cache_time']<=0)
+		if (!is_numeric($_POST['short_cache_time']) or $_POST['short_cache_time']<=0)
 			$error[]="Опция 'Время жизни кеша короткой новости' должна быть положительным числом.";
 		else
 			$editarr['short_cache_time']=intval($_POST['short_cache_time']);
 			
-		if ($_POST['full_cache_time']<=0)
+		if (!is_numeric($_POST['full_cache_time']) or $_POST['full_cache_time']<=0)
 			$error[]="Опция 'Время жизни кеша полной новости' должна быть положительным числом.";
 		else
 			$editarr['full_cache_time']=intval($_POST['full_cache_time']);
 			
-		if ($_POST['min_title_length']<=0)
+		if (!is_numeric($_POST['min_title_length']) or $_POST['min_title_length']<=0)
 			$error[]="Опция 'Минимальная длина названия новости' должна быть положительным числом.";
 		else
 			$editarr['min_title_length']=intval($_POST['min_title_length']);
 			
-		if ($_POST['max_title_length']<=0)
+		if (!is_numeric($_POST['max_title_length']) or $_POST['max_title_length']<=0)
 			$error[]="Опция 'Максимальная длина названия новости' должна быть положительным числом.";
 		else
 			$editarr['max_title_length']=intval($_POST['max_title_length']);
 			
-		if ($_POST['max_poster_size']<=0)
+		if (!is_numeric($_POST['max_poster_size']) or $_POST['max_poster_size']<=0)
 			$error[]="Опция 'Максимальный размер постера' должна быть положительным числом.";
 		else
 			$editarr['max_poster_size']=intval($_POST['max_poster_size']);
 			
-		if ($_POST['min_full_text']<=0)
+		if (!is_numeric($_POST['min_full_text']) or $_POST['min_full_text']<=0)
 			$error[]="Опция 'Минимально символов в полной новости' должна быть положительным числом.";
 		else
 			$editarr['min_full_text']=intval($_POST['min_full_text']);
 			
-		if ($_POST['news_views_taskperiod']<=0)
+		if (!is_numeric($_POST['news_views_taskperiod']) or $_POST['news_views_taskperiod']<=0)
 			$error[]="Опция 'Период обновления просмотров' должна быть положительным числом.";
 		else
 			$editarr['news_views_taskperiod']=intval($_POST['news_views_taskperiod']);
 			
-		if ($_POST['rss_limit']<=0)
+		if (!is_numeric($_POST['rss_limit']) or $_POST['rss_limit']<=0)
 			$error[]="Опция 'Количество новостей в RSS' должна быть положительным числом.";
 		else
 			$editarr['rss_limit']=intval($_POST['rss_limit']);

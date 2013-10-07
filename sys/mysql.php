@@ -16,14 +16,15 @@ function dbconnect()
 	
 	if($dbconnect)
 	{
-		$mysqli_select_db=mysqli_select_db ($dbconnect, $db_name) or $mysql_error[] = "Не удалось выбрать базу $db_name.";
+		$mysqli_select_db=mysqli_select_db ($dbconnect, $db_name) or $mysql_error[] = "Не удалось выбрать базу '$db_name'.";
 	
 		if($mysqli_select_db)
-			mysqli_query($dbconnect, "SET NAMES 'utf8'")or $mysql_error[] = "Не удалось кодировку соединения с базой.";
+			mysqli_query($dbconnect, "SET NAMES 'utf8'")or $mysql_error[] = "Не удалось установить кодировку соединения с базой.";
 	}
 	
 	if(isset($mysql_error))
 	{
+		$dbconnect=false;
 		$error=array_merge((array) $error,$mysql_error);
 		return false; //коннект не создался
 	}
