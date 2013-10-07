@@ -1,4 +1,4 @@
-<?
+<?php
 
 define('root', substr(dirname( __FILE__ ), 0, -15));
 include_once root.'/ajax/ajax_init.php';
@@ -30,8 +30,8 @@ else
 // 	 var_dump($_POST);
 	//$editarr=$_POST;
 
-	if (!file_exists($options_path))
-		$error[]='Файл options.php не найден';
+	if (!is_writable($options_path))
+		$error[]='Файл options.php не найден либо недоступен для записи';
 	else
 	{	
 		$plugin_options_array_keys=array_keys($plugin_options_array);
@@ -62,7 +62,7 @@ else
 					$editarr[$v]=$_POST[$v];
 		}
 		
-		if ($_POST['limit']<=0)
+		if (!is_numeric($_POST['limit']) or $_POST['limit']<=0)
 			$error[]="Опция 'Отображать похожих новостей' должна быть положительным числом.";
 		else
 			$editarr['limit']=intval($_POST['limit']);
