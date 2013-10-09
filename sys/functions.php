@@ -1398,7 +1398,11 @@ function make_query ($query_array)
 	if(isset($query_array['join']) and $query_array['join'])
 	{
 		foreach($query_array['join'] as $type=>$value)
-			$query_join.=" $type ".implode(" $type ",$query_array['join'][$type]).' ';
+// 			$query_join.=" $type join ".implode(" $type join ",$query_array['join'][$type]).' ';
+			if(isset($query_join) and $query_join)
+				$query_join.=" $type join ".implode(" $type join ",$query_array['join'][$type]).' ';
+			else
+				$query_join=" $type join ".implode(" $type join ",$query_array['join'][$type]).' ';
 		$query .= $query_join;
 	}
 		

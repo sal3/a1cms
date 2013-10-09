@@ -24,7 +24,7 @@ if($WHEREI['main']==true)
 		//форма добавления
 		if(!$comment_options['enable_add_new_comments'])
 			$commentsadd = showinfo("Добавление комментария:", "Добавление новых комментариев отключено.");
-		elseif($data['news_row']['allow_comments'] and in_array($_SESSION['user_group'], $comment_options['allow_add_comments']) /*and (!$engine_config['register_activate'] or $_SESSION['approved'])*/)
+		elseif($data['news_row']['allow_comments'] and isset($_SESSION['user_group']) and in_array($_SESSION['user_group'], $comment_options['allow_add_comments']))
 		{
 			$template = get_template('commentform');
 			$parse['{toolbar}']=edToolbar();
