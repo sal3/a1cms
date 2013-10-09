@@ -24,6 +24,7 @@ function dbconnect()
 		
 		if(isset($mysql_error))
 		{
+			$dbconnect='';
 			$error=array_merge((array) $error,$mysql_error);
 			return false; //коннект не создался
 		}
