@@ -39,11 +39,11 @@ elseif (in_array($_URI['path_params'][1],$cat_altnames))
 }
 
 $rss_query_array=array('variables'=>array());
-
-$rss_query_array['select']=array_merge(
-(array) $rss_query_array['select'],
-array('`{P}_news`.`id` newsid' ,'`title`', '`url_name`', '`category_id`', '`{P}_news`.`date`', '`poster`', '`short_text`', '`user_name`')//,'`{P}_news`.`comments_quantity`', '`views`'
-);
+$rss_select=array('`{P}_news`.`id` newsid' ,'`title`', '`url_name`', '`category_id`', '`{P}_news`.`date`', '`poster`', '`short_text`', '`user_name`');
+if(isset($rss_query_array['select']))
+	$rss_query_array['select']=array_merge((array) $rss_query_array['select'],$rss_select);
+else
+	$rss_query_array['select']=$rss_select;
 $rss_query_array['from']='`{P}_news`';
 $rss_query_array['where'][]='`approved`=1';
 $rss_query_array['order_by'] = array('`{P}_news`.`date` DESC');

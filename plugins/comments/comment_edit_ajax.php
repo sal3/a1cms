@@ -45,12 +45,12 @@ if($_GET['action'] == 'add')
 
 		if(!$error)
 		{
-			$added_comment_id = insert_id();
+			$com['news_row']['commentid'] = insert_id();
 			//увеличиваем пользователю количество каментов в профиле
 			query("update `{P}_users` set `comments_quantity`=`comments_quantity`+1 where `user_id` = i<user_id>", $vars);
 			query("update `{P}_news` set `comments_quantity`=`comments_quantity`+1 where `id` = i<news_id>", $vars);
 
-			$comment=comments(array('commentid'=>$added_comment_id));
+			$comment=comments($com);
 		}
 	}
 	else

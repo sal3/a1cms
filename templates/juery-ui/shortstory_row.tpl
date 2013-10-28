@@ -2,7 +2,7 @@
 	<h3 class="ui-widget-header ui-corner-all"><a href="{full-link}">{title}</a></h3>
 	<div class="widget-content">
 		<span class="ui-icon text-icon ui-icon-folder-collapsed" title="категория"></span>{link-category}
-		<a href="{full-link}"><img src="{poster}" alt="{safe_title}" class="poster ui-corner-all" onerror="imgError(this);"/></a>
+		[poster]<a href="{full-link}"><img src="{poster}" alt="{safe_title}" class="poster ui-corner-all" onerror="imgError(this);"/></a>[/poster]
 			<div class="widget-content">
 				{short-story}
 				<div style="clear:both;"></div>

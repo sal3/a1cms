@@ -40,32 +40,27 @@ function related_news ($data)
 
 	while($data['related_row'] = fetch_assoc($result))
 	{
-	
-			//unset ($cat_links);
-
-			$cat_links = make_cat_links($data['related_row']['category_id']);
+		$cat_links = make_cat_links($data['related_row']['category_id']);
 	
 		$data['tpl']=$entrie_tpl;
 		$data['related_row']['title'] = stripslashes($data['related_row']['title']);
-		//$maked_link=make_news_link($data['related_row']['newsid'], $data['related_row']['url_name'], $data['related_row']['category']);
-		//$news_title="<a href='".$engine_config['site_path'].$maked_link."'>" .$data['related_row']['title'] . "</a>";
-
-		$data['parse']['{tr_style}']='';
+		
 		$data['parse']['{title}']=stripslashes($data['related_row']['title']);
 		$data['parse']['{poster}']=$data['related_row']['poster'];
 		$data['parse']['{full-link}']=$engine_config['site_path'].make_news_link ($data['related_row']['newsid'], $data['related_row']['url_name'], $data['related_row']['category_id']);
-		
 		$data['parse']['{link-category}'] = $cat_links;
-		
 		$data['parse']['{date}']=relative_date($data['related_row']['newsdate']);
 		$data['parse']['{newsid}']=$data['related_row']['newsid'];
-		$data['parse']['{author_group_id}'] = $data['related_row']['user_group'];
+// 		$data['parse']['{author_group_id}'] = $data['related_row']['user_group'];
 		$data['parse']['{author_link}'] = "/".$LANG['user']."/".rawurlencode($data['related_row']['user_name']);
 		$data['parse']['{user_name}'] = $data['related_row']['user_name'];
 		
 		$data=filter('filter_before_related_parse', $data);
 
-		$related .= parse_template($data['tpl'], $data['parse']);
+		if(isset($related))
+			$related .= parse_template($data['tpl'], $data['parse']);
+		else
+			$related = parse_template($data['tpl'], $data['parse']);
 	}
 		if(isset($related))
 			$parse[$entrie_out['0']]=$related;

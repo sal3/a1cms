@@ -46,21 +46,19 @@ function parse_template ($template_source,$data_array)
 	if ($template_source)
 	{
 		preg_match_all('#\[if-plugin-([\w\d]+)\]#siu', $template_source, $out);
-		
 		foreach ($out[1] as $pluginname)
 		{
 			if (if_plugin_enabled($pluginname))
 			{
 				$p_array=array("[if-plugin-$pluginname]"=>'',"[/if-plugin-$pluginname]"=>'');
 				$data_array=array_merge($data_array, $p_array);
-				//var_dump($data_array);
 			}
 			else
 				$template_source=preg_replace("#\[if-plugin-$pluginname\].*?\[/if-plugin-$pluginname\]#siu",'',$template_source);
 		}
 
 		
-		if(is_array($data_array))
+		if(is_array($data_array) and $template_source)
 		{
 			//$data_array['{site_path}']=$engine_config['template_path_http'];
 			$data_array['{THEME}']=$engine_config['template_path_http'];
@@ -70,8 +68,7 @@ function parse_template ($template_source,$data_array)
 
 			$parse_execute_time = microtime() - $parse_start_time;
 			$TEMPLATES_PARSE_TIME_COUNTER += $parse_execute_time;
-
-			return str_replace(array_keys($data_array), array_values($data_array), $template_source);
+			return @str_replace(array_keys($data_array), array_values($data_array), $template_source);
 		}
 		elseif($template_source)
 			return $template_source;
@@ -491,7 +488,7 @@ function universal_link_bar($count, $page, $URL, $perpage, $show_link, $page_tex
 	foreach($bar_content as $item)
 	{
 		$tmp_tpl=$entrie_tpl;
-		if($item['disabled'])
+		if(isset($item['disabled']) and $item['disabled'])
 			$parse_item['{disabled}']='disabled';
 		else
 			$parse_item['{disabled}']='';
@@ -499,7 +496,10 @@ function universal_link_bar($count, $page, $URL, $perpage, $show_link, $page_tex
 		$parse_item['{url}']=$item['url'];
 		$parse_item['{name}']=$item['name'];
 		
-		$parse_items.=parse_template($tmp_tpl,$parse_item);
+		if(isset($parse_items))
+			$parse_items.=parse_template($tmp_tpl,$parse_item);
+		else
+			$parse_items=parse_template($tmp_tpl,$parse_item);
 	}
 	
 	$bar_content[$page_out[0]]=$parse_items;
@@ -912,8 +912,8 @@ function edToolbar($inadmin=false)
 	event('before_toolbar_create');
 
 	$tpl=get_template('toolbar',$inadmin);
-	$parse['{toolbarid}']=$toolbarid;
-
+	//$parse['{toolbarid}']=$toolbarid;
+	$parse['{toolbarid}']='';
 
 
 	preg_match("/\[item\](.*?)\[\/item\]/isu", $tpl, $entrie_out);
